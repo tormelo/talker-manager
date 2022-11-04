@@ -54,7 +54,7 @@ function validateTalkWatchedAt(req, res, next) {
 function validateTalkRate(req, res, next) {
   const { talk: { rate } } = req.body;
   
-  if (!rate) return res.status(400).json({ message: 'O campo "rate" é obrigatório' });
+  if (rate === undefined) return res.status(400).json({ message: 'O campo "rate" é obrigatório' });
   
   const rateRegex = /^\d{1}$/;
   const isValidFormat = rateRegex.test(rate);
