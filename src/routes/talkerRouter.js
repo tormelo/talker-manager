@@ -1,11 +1,11 @@
 const express = require('express');
-const validateTalkerAge = require('../middlewares/validateTalkerAge');
-const validateTalkerName = require('../middlewares/validateTalkerName');
 const { 
+  validateTalkerName,
+  validateTalkerAge,
   validateTalk, 
   validateTalkWatchedAt, 
   validateTalkRate, 
-} = require('../middlewares/validateTalkerTalk');
+} = require('../middlewares/validateTalker');
 const validateToken = require('../middlewares/validateToken');
 const { readTalkersData } = require('../utils/fsUtils');
 
