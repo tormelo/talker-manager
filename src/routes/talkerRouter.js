@@ -1,12 +1,5 @@
 const express = require('express');
-const { 
-  validateTalkerName,
-  validateTalkerAge,
-  validateTalk, 
-  validateTalkWatchedAt, 
-  validateTalkRate,
-  validateTalkerId, 
-} = require('../middlewares/validateTalker');
+const validateTalkerData = require('../middlewares/validateTalkerData');
 const validateToken = require('../middlewares/validateToken');
 const { 
   readTalkersData, 
@@ -49,11 +42,7 @@ router.delete('/talker/:id', validateTalkerId, async (req, res) => {
   res.status(204).send();
 });
 
-router.use(validateTalkerName);
-router.use(validateTalkerAge);
-router.use(validateTalk);
-router.use(validateTalkWatchedAt);
-router.use(validateTalkRate);
+router.use(validateTalkerData);
 
 router.post('/talker', async (req, res) => {
   const newTalker = await writeTalkersData(req.body);

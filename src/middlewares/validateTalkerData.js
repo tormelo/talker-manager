@@ -1,15 +1,3 @@
-const { readTalkersData } = require('../utils/fsUtils');
-
-async function validateTalkerId(req, res, next) {
-  const { id } = req.params;
-  const talkers = await readTalkersData();
-  const isValidTalker = talkers.some((talker) => talker.id === Number(id));
-
-  if (!isValidTalker) return res.status(400).json({ message: 'Talker não encontrado' });
-
-  next();
-}
-
 function validateTalkerName(req, res, next) {
   const { name } = req.body;
 
@@ -82,11 +70,12 @@ function validateTalkRate(req, res, next) {
   next();
 }
 
-module.exports = { 
-  validateTalkerId,
-  validateTalkerName,
-  validateTalkerAge,
-  validateTalk, 
-  validateTalkRate, 
-  validateTalkWatchedAt,
-};
+const validateTalkerData = [
+  validateTalkerName, 
+  validateTalkerAge, 
+  validateTalk,
+  validateTalkWatchedAt, 
+  validateTalkRate,
+];
+
+module.exports = validateTalkerData;
