@@ -7,7 +7,7 @@ const {
   validateTalkRate, 
 } = require('../middlewares/validateTalker');
 const validateToken = require('../middlewares/validateToken');
-const { readTalkersData } = require('../utils/fsUtils');
+const { readTalkersData, writeTalkersData } = require('../utils/fsUtils');
 
 const router = express.Router();
 
@@ -35,9 +35,9 @@ router.use(validateTalk);
 router.use(validateTalkWatchedAt);
 router.use(validateTalkRate);
 
-router.post('/talker', (req, res) => {
-  console.log(req.get('authorization'));
-  res.status(200).send();
+router.post('/talker', async (req, res) => {
+  const newTalker = await writeTalkersData(req.body);
+  res.status(201).json(newTalker);
 });
 
 module.exports = router;
