@@ -8,7 +8,12 @@ const {
   validateTalkerId, 
 } = require('../middlewares/validateTalker');
 const validateToken = require('../middlewares/validateToken');
-const { readTalkersData, writeTalkersData, updateTalkerData } = require('../utils/fsUtils');
+const { 
+  readTalkersData, 
+  writeTalkersData, 
+  updateTalkerData, 
+  deleteTalkerData, 
+} = require('../utils/fsUtils');
 
 const router = express.Router();
 
@@ -32,7 +37,9 @@ router.get('/talker/:id', async (req, res) => {
 router.use(validateToken);
 
 router.delete('/talker/:id', validateTalkerId, async (req, res) => {
-  res.status(200).send();
+  const { id } = req.params;
+  await deleteTalkerData(Number(id));
+  res.status(204).send();
 });
 
 router.use(validateTalkerName);
