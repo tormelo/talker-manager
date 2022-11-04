@@ -17,9 +17,11 @@ const {
 
 const router = express.Router();
 
-router.get('/talker', async (req, res) => {
+router.get('/talker/search', validateToken, async (req, res) => {
+  const { q } = req.query;
   const talkers = await readTalkersData();
-  res.status(200).json(talkers);
+  const filteredTalkers = talkers.filter((talker) => talker.name.includes(q));
+  res.status(200).json(filteredTalkers);
 });
 
 router.get('/talker/:id', async (req, res) => {
@@ -32,6 +34,11 @@ router.get('/talker/:id', async (req, res) => {
   res.status(404).json({
     message: 'Pessoa palestrante não encontrada',
   });
+});
+
+router.get('/talker', async (req, res) => {
+  const talkers = await readTalkersData();
+  res.status(200).json(talkers);
 });
 
 router.use(validateToken);
