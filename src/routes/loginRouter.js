@@ -1,15 +1,13 @@
 const express = require('express');
 const cryptoJS = require('crypto-js');
-const validateLoginEmail = require('../middlewares/validateLoginEmail');
-const validateLoginPassword = require('../middlewares/validateLoginPassword');
+const validateCredentials = require('../middlewares/validateCredentials');
 
 const router = express.Router();
 
-router.post('/login', validateLoginEmail, validateLoginPassword, async (req, res) => {
-  const { email, password } = req.body;
+router.use(validateCredentials);
+
+router.post('/login', async (req, res) => {
   const token = cryptoJS.lib.WordArray.random(8).toString();
-  console.log(email, password);
-  console.log(token);
   res.status(200).json({ token });
 });
 
