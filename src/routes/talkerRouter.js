@@ -1,4 +1,5 @@
 const express = require('express');
+const validateToken = require('../middlewares/validateToken');
 const { readTalkersData } = require('../utils/fsUtils');
 
 const router = express.Router();
@@ -18,6 +19,11 @@ router.get('/talker/:id', async (req, res) => {
   res.status(404).json({
     message: 'Pessoa palestrante não encontrada',
   });
+});
+
+router.post('/talker', validateToken, (req, res) => {
+  console.log(req.get('authorization'));
+  res.status(200).send();
 });
 
 module.exports = router;
