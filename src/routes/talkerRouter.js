@@ -1,4 +1,5 @@
 const express = require('express');
+const validateId = require('../middlewares/validateId');
 const validateTalkerData = require('../middlewares/validateTalkerData');
 const validateToken = require('../middlewares/validateToken');
 const { 
@@ -13,20 +14,15 @@ const router = express.Router();
 router.get('/talker/search', validateToken, async (req, res) => {
   const { q } = req.query;
   const talkers = await readTalkersData();
-  const filteredTalkers = talkers.filter((talker) => talker.name.includes(q));
+  const filteredTalkers = talkers.filter((t) => t.name.includes(q));
   res.status(200).json(filteredTalkers);
 });
 
-router.get('/talker/:id', async (req, res) => {
+router.get('/talker/:id', validateId, async (req, res) => {
   const { id } = req.params;
   const talkers = await readTalkersData();
-  const talker = talkers.find((t) => Number(id) === t.id);
-  
-  if (talker) return res.status(200).json(talker);
-  
-  res.status(404).json({
-    message: 'Pessoa palestrante não encontrada',
-  });
+  const talker = talkers.find((t) => t.id === Number(id));
+  res.status(200).json(talker);
 });
 
 router.get('/talker', async (req, res) => {
@@ -36,7 +32,7 @@ router.get('/talker', async (req, res) => {
 
 router.use(validateToken);
 
-router.delete('/talker/:id', validateTalkerId, async (req, res) => {
+router.delete('/talker/:id', validateId, async (req, res) => {
   const { id } = req.params;
   await deleteTalkerData(Number(id));
   res.status(204).send();
@@ -49,7 +45,7 @@ router.post('/talker', async (req, res) => {
   res.status(201).json(newTalker);
 });
 
-router.put('/talker/:id', validateTalkerId, async (req, res) => {
+router.put('/talker/:id', validateId, async (req, res) => {
   const { id } = req.params;
   const updatedTalker = await updateTalkerData(Number(id), req.body);
   res.status(200).json(updatedTalker);
