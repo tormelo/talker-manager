@@ -1,9 +1,11 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const talkerRouter = require('./routes/talkerRouter');
+const loginRouter = require('./routes/loginRouter');
 
 const app = express();
 app.use(bodyParser.json());
+app.use(loginRouter);
 app.use(talkerRouter);
 
 const HTTP_OK_STATUS = 200;
