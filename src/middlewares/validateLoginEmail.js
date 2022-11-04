@@ -1,7 +1,7 @@
 function validateLoginEmail(req, res, next) {
   const { email } = req.body;
 
-  const emailRegex = /[^@ \t\r\n]+@[^@ \t\r\n]+\.[^@ \t\r\n]+/;
+  const emailRegex = /^[^@ \t\r\n]+@[^@ \t\r\n]+\.[^@ \t\r\n]+$/;
   const isEmailValid = emailRegex.test(email);
 
   if (!email) {

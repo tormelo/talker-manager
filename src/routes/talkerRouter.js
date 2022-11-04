@@ -1,6 +1,11 @@
 const express = require('express');
 const validateTalkerAge = require('../middlewares/validateTalkerAge');
 const validateTalkerName = require('../middlewares/validateTalkerName');
+const { 
+  validateTalk, 
+  validateTalkWatchedAt, 
+  validateTalkRate, 
+} = require('../middlewares/validateTalkerTalk');
 const validateToken = require('../middlewares/validateToken');
 const { readTalkersData } = require('../utils/fsUtils');
 
@@ -26,6 +31,9 @@ router.get('/talker/:id', async (req, res) => {
 router.use(validateToken);
 router.use(validateTalkerName);
 router.use(validateTalkerAge);
+router.use(validateTalk);
+router.use(validateTalkWatchedAt);
+router.use(validateTalkRate);
 
 router.post('/talker', (req, res) => {
   console.log(req.get('authorization'));
