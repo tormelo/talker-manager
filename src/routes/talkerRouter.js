@@ -1,4 +1,5 @@
 const express = require('express');
+const validateTalkerName = require('../middlewares/validateTalkerName');
 const validateToken = require('../middlewares/validateToken');
 const { readTalkersData } = require('../utils/fsUtils');
 
@@ -21,7 +22,10 @@ router.get('/talker/:id', async (req, res) => {
   });
 });
 
-router.post('/talker', validateToken, (req, res) => {
+router.use(validateToken);
+router.use(validateTalkerName);
+
+router.post('/talker', (req, res) => {
   console.log(req.get('authorization'));
   res.status(200).send();
 });
