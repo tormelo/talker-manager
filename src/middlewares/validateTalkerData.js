@@ -17,7 +17,7 @@ function validateTalkerAge(req, res, next) {
 
   if (!age) return res.status(400).json({ message: 'O campo "age" é obrigatório' }); 
 
-  if (Number(age) < 18) {
+  if (age < 18) {
     return res.status(400).json({
       message: 'A pessoa palestrante deve ser maior de idade',
     }); 
@@ -57,9 +57,9 @@ function validateTalkRate(req, res, next) {
   if (rate === undefined) return res.status(400).json({ message: 'O campo "rate" é obrigatório' });
   
   const rateRegex = /^\d{1}$/;
-  const isValidFormat = rateRegex.test(rate);
-  const isValidRange = Number(rate) >= 1 && Number(rate) <= 5;
-  const isRateValid = isValidFormat && isValidRange;
+  const isFormatValid = rateRegex.test(rate);
+  const isRangeValid = rate >= 1 && rate <= 5;
+  const isRateValid = isFormatValid && isRangeValid;
 
   if (!isRateValid) {
     return res.status(400).json({

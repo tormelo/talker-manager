@@ -4,7 +4,7 @@ const path = require('path');
 const TALKERS_DATA_PATH = path.resolve(__dirname, '../talker.json');
 
 function getNewId(talkers) {
-  return talkers.reduce((id, curr) => (Number(curr.id) > id && Number(curr.id)), 0) + 1;
+  return talkers.reduce((id, curr) => (curr.id > id && curr.id), 0) + 1;
 }
 
 async function readTalkersData() {
@@ -33,8 +33,7 @@ async function updateTalkerData(id, newData) {
   try {
     const talkers = await readTalkersData();
     const updatedTalker = { id, ...newData };
-    const updatedTalkers = talkers
-      .map((talker) => (talker.id === id ? updatedTalker : talker));
+    const updatedTalkers = talkers.map((t) => (t.id === id ? updatedTalker : t));
     await fs.writeFile(TALKERS_DATA_PATH, JSON.stringify(updatedTalkers));
     return updatedTalker;
   } catch (error) {
@@ -45,7 +44,7 @@ async function updateTalkerData(id, newData) {
 async function deleteTalkerData(id) {
   try {
     const talkers = await readTalkersData();
-    const filteredTalkers = talkers.filter((talker) => talker.id !== id);
+    const filteredTalkers = talkers.filter((t) => t.id !== id);
     await fs.writeFile(TALKERS_DATA_PATH, JSON.stringify(filteredTalkers));
   } catch (error) {
     console.error(error.message);

@@ -3,9 +3,9 @@ const { readTalkersData } = require('../utils/fsUtils');
 async function validateId(req, res, next) {
   const { id } = req.params;
   const talkers = await readTalkersData();
-  const isValidTalker = talkers.some((talker) => talker.id === Number(id));
+  const isTalkerValid = talkers.some((t) => t.id === Number(id));
 
-  if (!isValidTalker) return res.status(404).json({ message: 'Pessoa palestrante não encontrada' });
+  if (!isTalkerValid) return res.status(404).json({ message: 'Pessoa palestrante não encontrada' });
 
   next();
 }
